@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "DSED_M08_DemoCours/1.0.0": {
+        "runtime": {
+          "DSED_M08_DemoCours.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "DSED_M08_DemoCours/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

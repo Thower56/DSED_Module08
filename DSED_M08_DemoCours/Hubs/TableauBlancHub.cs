@@ -22,7 +22,28 @@ namespace DSED_M08_DemoCours.Hubs
                 _dessin.Add(nomTableau, new List<Ligne>());
                 await Clients.Caller.SendAsync("DemarrageTableau", _dessin[nomTableau]);
             }
+
+            if (!_dessin.ContainsKey(nomTableau))
+            {
+                _dessin.Add(nomTableau, new List<Ligne>());
+                await Clients.All.SendAsync("MetterAJour", _dessin.Keys);
+            }
+
+            await Groups.AddToGroupAsync(connexionId, nomTableau);
+            m_Tableaux[connexionId] = nomTableau;
+            await Clients.Caller.SendAsync("DemarrageTableau", _dessin.Keys);
         }
+
+        public async Task UpdateSessionName()
+        {
+            string connexionId = this.Context.ConnectionId;
+            if (m_Tableaux.ContainsKey(connexionId))
+            {
+                string nomTableau = m_Tableaux[connexionId];
+                await Clients.Caller.SendAsync("UpdateSessionName", nomTableau);
+            }
+        }
+
         public async Task CountViewTest() 
         {
             TotalViews++;

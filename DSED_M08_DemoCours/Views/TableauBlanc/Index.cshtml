@@ -2,9 +2,18 @@
 @{
     ViewData["Title"] = "Index";
 }
+<h2>Tableau blanc</h2>
+
+<div ip="selectionDeTableau">
+    <input type="text" id="txtNomTableau" pattern="[a-zA-Z_-]+"/>
+    <button id="btCreerTableau">Creer un autre tableau</button>
+    <select id="lstTableau"></select>
+    <button id="btRejoindre">Rejoindre</button>
+</div>
 
 <div id="LocationTableau">
-    <h2>Tableau blanc</h2>
+    <h2 id="nomSession"></h2>
+    
     <canvas height="480" width="640" id="tableauBlanc"></canvas>
     <div>
         <button id="btEffacerTableau">Effacer</button>
@@ -69,6 +78,7 @@
 
             connexion.on("DemarrageTableau", function (lignes) {
                 console.log(lignes);
+                effacerTableau();
                 lignes.forEach(function (ligne) {
                     dessinerLigne(ligne);
                 });
@@ -79,8 +89,13 @@
             }
 
             connexion.on("updateTotalViews", (value) => {
-                var newCountSpan = document.getElementById("totalViewsCounter");
-                newCountSpan.innerHTML = value.toString();
+                var newCount = document.getElementById("totalViewsCounter");
+                newCount.innerHTML = value.toString();
+            })
+
+            connexion.on("UpdateSessionName", (value) => {
+                var newSessionName = document.getElementById("nomSession");
+                newSessionName.innerHTML = "Session: " + value.toString();
             })
 
             function fulfilled() {
@@ -93,7 +108,7 @@
                 console.log("Connection echoue");
             }
 
-            connexion.start().then(fulfilled).catch(function (err) {
+            connexion.start().then(fulfilled, rejected).catch(function (err) {
                 return console.error(err.toString());
             });
 
